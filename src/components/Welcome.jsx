@@ -2,9 +2,10 @@ import { SiEthereum } from 'react-icons/si'
 import { GoInfo } from 'react-icons/go'
 import { useContext } from 'react'
 import { TransactionContext } from '../context/TransactionContext'
+import Loader from './Loader'
 
 const Welome = () => {
-  const { connectWallet, currentAccount, formData, setFormData, handleChange, sendTransaction } = useContext(TransactionContext)
+  const { connectWallet, currentAccount, formData, setFormData, handleChange, sendTransaction, isLoading } = useContext(TransactionContext)
 
   const handleSubmit = (e) => {
     const { addressTo, amount, keyword, message } = formData;
@@ -54,7 +55,7 @@ const Welome = () => {
             <GoInfo size={20} className='text-gray-300' />
           </div>
           <div className='mt-16'>
-            <h3 className='text-white text-xs'>Address</h3>
+            <h3 className='text-white text-xs'>{currentAccount}</h3>
             <h2 className='text-white font-semibold'>Ethereum</h2>
           </div>
         </div>
@@ -97,13 +98,16 @@ const Welome = () => {
               />
             </div>
             <div className='border-[1px]' />
+            {isLoading ? (
+              <Loader />
+            ): (
             <button
               type='submit'
               className='bg-blue-600 w-full rounded-3xl p-2 mt-4 text-white'
               onClick={handleSubmit}
             >
               Send
-            </button>
+            </button>)}
           </form>
         </div>
       </div>
