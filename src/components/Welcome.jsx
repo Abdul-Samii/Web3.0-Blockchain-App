@@ -1,18 +1,31 @@
 import { SiEthereum } from 'react-icons/si'
 import { GoInfo } from 'react-icons/go'
+import { useContext } from 'react'
+import { TransactionContext } from '../context/TransactionContext'
 
 const Welome = () => {
+  const { connectWallet, currentAccount, formData, setFormData, handleChange, sendTransaction } = useContext(TransactionContext)
+
+  const handleSubmit = (e) => {
+    const { addressTo, amount, keyword, message } = formData;
+    console.log(formData)
+    e.preventDefault();
+    if(!addressTo || !amount || !keyword || !message) return;
+    sendTransaction();
+  }
+
   return (
     <div className='lg:flex'>
       <div className='w-fit lg:ml-[20%] ml-[5%] mt-[5%] text-white'>
         <h1 className='text-white text-4xl'>Send Crypto<br /> across the world</h1>
         <p className='w-1/2 text-gray-400 mt-4'>Explore the crypto world. Buy and sell cryptocurrencies easily on Krypto.</p>
-        <button
+        { !currentAccount && <button
           type='submit'
           className='bg-blue-600 w-1/2 rounded-3xl p-2 mt-4'
+          onClick={connectWallet}
         >
           Connect Wallet
-        </button>
+        </button>}
         <div className='grid grid-cols-3 mt-14'>
           <div className='text-center border-2 p-3 rounded-tl-2xl'>
             Reliability
@@ -50,27 +63,47 @@ const Welome = () => {
             <div>
               <input
                 placeholder='Address To'
-                className='bg-gray-800 p-2 w-[100%]'
+                className='bg-gray-800 p-2 w-[100%] text-white'
+                name='addressTo'
+                type='text'
+                onChange={handleChange}
               />
             </div>
             <div>
               <input
                 placeholder='Amount(ETH)'
-                className='bg-gray-800 p-2 w-[100%]'
+                className='bg-gray-800 p-2 w-[100%] text-white'
+                name='amount'
+                type='number'
+                onChange={handleChange}
               />
             </div>
             <div>
               <input
                 placeholder='Keyword(Gif)'
-                className='bg-gray-800 p-2 w-[100%]'
+                className='bg-gray-800 p-2 w-[100%] text-white'
+                name='keyword'
+                type='text'
+                onChange={handleChange}
               />
             </div>
             <div>
               <input
                 placeholder='Enter Message'
-                className='bg-gray-800 p-2 w-[100%]'
+                className='bg-gray-800 p-2 w-[100%] text-white'
+                name='message'
+                type='text'
+                onChange={handleChange}
               />
             </div>
+            <div className='border-[1px]' />
+            <button
+              type='submit'
+              className='bg-blue-600 w-full rounded-3xl p-2 mt-4 text-white'
+              onClick={handleSubmit}
+            >
+              Send
+            </button>
           </form>
         </div>
       </div>
